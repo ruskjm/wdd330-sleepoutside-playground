@@ -1,3 +1,10 @@
+WDD 330: Web Frontend Development II
+
+Trello Board
 https://trello.com/b/2gS4qfCZ/wdd-330-team-17-board
 
+Netlify Site
+https://tiny-strudel-310ae3.netlify.app/
+
+Team Members
 Jason Rusk
