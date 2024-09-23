@@ -6,7 +6,6 @@ export default defineConfig({
   publicDir: "json",
   build: {
     outDir: "../dist",
-    assetsDir: "assets",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "src/index.html"),
@@ -28,5 +27,4 @@ export default defineConfig({
       },
     },
   },
-  assetsInclude: ["**/*.jpg", "**/*.jpeg"],
 });
