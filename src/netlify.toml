@@ -1,0 +1,22 @@
+# netlify.toml
+
+[build]
+  publish = "."  # Publish the root directory
+  command = ""   # No build command if you're not using a build process
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Ensure Netlify doesn't process your JSON files
+[build.processing]
+  skip_processing = false
+[build.processing.json]
+  pragma = false
+
+# Copy JSON files to the root of the published site
+[build.edge_handlers]
+[[build.edge_handlers]]
+  path = "/json/*"
+  target = "/json/:splat"
