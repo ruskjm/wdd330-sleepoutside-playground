@@ -11,15 +11,11 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
-  //const imagePath = item.Image.startsWith("/") ? item.Image : `/${item.Image}`;
   
-  // Remove any leading '../' from the image path
-  const imagePath = item.Image.replace(/^\.\.\//, "/");
-
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${imagePath}"
+      src="${item.Image}"
       alt="${item.Name}"
     />
   </a>
