@@ -4,9 +4,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   root: "src/",
   publicDir: "json",
-  assetsInclude: ["**/*.jpg", "**/*.jpeg"],
   build: {
     outDir: "../dist",
+    assetsDir: "assets",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "src/index.html"),
@@ -28,4 +28,5 @@ export default defineConfig({
       },
     },
   },
+  assetsInclude: ["**/*.jpg", "**/*.jpeg"],
 });
