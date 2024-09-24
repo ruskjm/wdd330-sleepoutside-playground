@@ -1,39 +1,62 @@
-// Import functions for local storage
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
-
-// Import ProductData class for handling product information
+import { getLocalStorage, setLocalStorage, getParams } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
-// Create a new instance of ProductData for tents
 const dataSource = new ProductData("tents");
+const productId = getParams("product");
 
-// Function to add a product to the cart
 function addProductToCart(product) {
-  // Retrieve the current cart from local storage
   let cart = getLocalStorage("so-cart");
-
-  // Check if cart is an array, if not, initialize it as an empty array
   if (!Array.isArray(cart)) {
     cart = [];
   }
-
-  // Add the new product to the cart array
   cart.push(product);
-
-  // Save the updated cart back to local storage
   setLocalStorage("so-cart", cart);
 }
 
-// Asynchronous event handler for the "Add to Cart" button
-async function addToCartHandler(e) {
-  // Find the product by its ID
-  const product = await dataSource.findProductById(e.target.dataset.id);
-  // Add the found product to the cart
-  addProductToCart(product);
+function renderProductDetails(product) {
+  document.querySelector(".product-detail").innerHTML = `
+    <h3>${product.Brand.Name}</h3>
+    <h2 class="divider">${product.NameWithoutBrand}</h2>
+    <img
+      class="divider"
+      src="${product.Image}"
+      alt="${product.NameWithoutBrand}"
+    />
+    <p class="product-card__price">$${product.FinalPrice}</p>
+    <p class="product__color">${product.Colors[0].ColorName}</p>
+    <p class="product__description">
+      ${product.DescriptionHtmlSimple}
+    </p>
+    <div class="product-detail__add">
+      <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+    </div>
+  `;
 }
 
-// Select the "Add to Cart" button
-document
-  .getElementById("addToCart")
-  // Add a click event listener to the button
-  .addEventListener("click", addToCartHandler);
+function renderError(message) {
+  document.querySelector(".product-detail").innerHTML = `
+    <h2>Error</h2>
+    <p>${message}</p>
+  `;
+}
+
+async function productInit() {
+  try {
+    if (!productId) {
+      throw new Error("No product ID specified");
+    }
+    const product = await dataSource.findProductById(productId);
+    if (!product) {
+      throw new Error(`No product found with ID: ${productId}`);
+    }
+    renderProductDetails(product);
+
+    document.getElementById("addToCart").addEventListener("click", () => {
+      addProductToCart(product);
+    });
+  } catch (error) {
+    renderError(error.message);
+  }
+}
+
+productInit();
